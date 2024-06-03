@@ -3,9 +3,10 @@
     <!DOCTYPE html>
     <html>
 
-    <head>
-      <%@ include file="../include/static-head.jsp" %>   
- </head>
+  <head>
+    <%@ include file="../include/static-head.jsp" %>   
+    <link rel="stylesheet" href="/assets/css/list.css">
+  </head>
 
     <body>
       <%@ include file="../include/header.jsp" %>
@@ -38,13 +39,6 @@
 
             </form>
           </div>
-
-          <div class="amount">
-            <div><a href="#">6</a></div>
-            <div><a href="#">18</a></div>
-            <div><a href="#">30</a></div>
-          </div>
-
         </div>
 
         <div class="card-container">

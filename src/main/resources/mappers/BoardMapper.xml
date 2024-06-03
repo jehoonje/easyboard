@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.study.tomCatPractice.springmvc.chap04.mapper.BoardMapper">
+<mapper namespace="com.study.easyboard.springmvc.chap04.mapper.BoardMapper">
 
     <!--  동적 SQL 조건을 분리  -->
     <sql id="search">
@@ -23,7 +23,7 @@
     </sql>
 
 
-    <select id="findAll" resultType="com.study.tomCatPractice.springmvc.chap04.dto.BoardFindAllDto">
+    <select id="findAll" resultType="com.study.easyboard.springmvc.chap04.dto.BoardFindAllDto">
         SELECT
             B.board_no,
             B.title,
