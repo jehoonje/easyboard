@@ -11,79 +11,44 @@
     <body>
       <%@ include file="../include/header.jsp" %>
 
+      
       <div id="wrap">
 
         <div class="main-title-wrapper">
-          <h1 class="main-title">게시판</h1>
-          <button class="add-btn">새 글 쓰기</button>
-        </div>
-
-
-        <div class="top-section">
-          <!-- 검색창 영역 -->
-          <div class="search">
-            <form action="/board/list" method="get">
-
-              <select class="form-select" name="type" id="search-type">
-                <option value="title">제목</option>
-                <option value="content">내용</option>
-                <option value="writer">작성자</option>
-                <option value="tc">제목+내용</option>
-              </select>
-
-              <input type="text" class="form-control" name="keyword" value="${s.keyword}">
-
-              <button class="btn btn-primary" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-
-            </form>
-          </div>
+          <h1 class="main-title">Posts</h1>
+          <button class="add-btn">new post</button>
         </div>
 
         <div class="card-container">
-
-          <c:if test="${bList.size() == 0}">
-            <div class="empty">
-              검색한 게시물이 존재하지 않습니다!
-            </div>
-          </c:if>
-
           <c:if test="${bList.size() > 0}">
             <c:forEach var="b" items="${bList}">
               <div class="card-wrapper">
                 <section class="card" data-bno="${b.bno}">
                   <div class="card-title-wrapper">
-                    <h2 class="card-title">${b.shortTitle} [${b.replyCount}] </h2>
                     <div class="time-view-wrapper">
                       <div class="time">
                         <i class="far fa-clock"></i>
                         ${b.date}
                       </div>
 
-                      <c:if test="${b.hit}">
-                        <div class="hit">HIT</div>
-                      </c:if>
-
-                      <c:if test="${b.newArticle}">
-                        <div class="hit">NEW</div>
-                      </c:if>
-
                       <div class="view">
                         <i class="fas fa-eye"></i>
                         <span class="view-count">${b.view}</span>
                       </div>
                     </div>
-                  </div>
-                  <div class="card-content">
-                    ${b.shortContent}
+                    <div class="card-title">${b.shortTitle} [${b.replyCount}] </ㅇ>
                   </div>
                 </section>
-                <div class="card-btn-group">
-                  <button class="del-btn" data-href="/board/delete?bno=${b.bno}">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
+
+                <!-- 관리자이거나 본인이 쓴글에만 렌더링되도록 -->
+                <c:if test="${login.auth == 'ADMIN' || login.account == b.account}">
+                  <div class="card-btn-group">
+                    <button class="del-btn" data-href="/board/delete?bno=${b.bno}">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </c:if>
+
               </div>
               <!-- end div.card-wrapper -->
             </c:forEach>
@@ -91,6 +56,7 @@
 
 
         </div>
+  
         <!-- end div.card-container -->
 
         <!-- 게시글 목록 하단 영역 -->
@@ -153,7 +119,8 @@
           </div>
         </div>
       </div>
-
+    </div>
+      </body>
 
 
       <script>
@@ -221,32 +188,6 @@
           const $delBtn = e.target.closest('.card-wrapper')?.querySelector('.del-btn');
           $delBtn.style.opacity = '0';
         }
-
-
-
-        $cardContainer.onmouseover = e => {
-
-          if (!e.target.matches('.card-container *')) return;
-
-          const $targetCard = e.target.closest('.card');
-          $targetCard?.classList.add('card-hover');
-
-          const $delBtn = e.target.closest('.card-wrapper')?.querySelector('.del-btn');
-          $delBtn.style.opacity = '1';
-        }
-
-        $cardContainer.onmousedown = e => {
-
-          if (e.target.matches('.card-container .card-btn-group *')) return;
-
-          const $targetCard = e.target.closest('.card-wrapper');
-          $targetCard?.setAttribute('id', 'card-down');
-        };
-
-        $cardContainer.onmouseup = removeDown;
-
-        $cardContainer.addEventListener('mouseout', removeDown);
-        $cardContainer.addEventListener('mouseout', removeHover);
 
         // write button event
         document.querySelector('.add-btn').onclick = e => {

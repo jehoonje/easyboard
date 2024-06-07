@@ -1,9 +1,15 @@
 package com.study.easyboard.springmvc.chap05.service;
 
+import com.study.easyboard.springmvc.chap04.common.Page;
+import com.study.easyboard.springmvc.chap04.common.PageMaker;
+import com.study.easyboard.springmvc.chap04.common.Search;
 import com.study.easyboard.springmvc.chap05.dto.request.LoginDto;
 import com.study.easyboard.springmvc.chap05.dto.request.SignUpDto;
 import com.study.easyboard.springmvc.chap05.dto.response.LoginUserInfoDto;
+import com.study.easyboard.springmvc.chap05.dto.response.ReplyDetailDto;
+import com.study.easyboard.springmvc.chap05.dto.response.ReplyListDto;
 import com.study.easyboard.springmvc.chap05.entity.Member;
+import com.study.easyboard.springmvc.chap05.entity.Reply;
 import com.study.easyboard.springmvc.chap05.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.study.easyboard.springmvc.chap05.service.LoginResult.*;
 import static com.study.easyboard.springmvc.util.LoginUtil.*;
@@ -71,9 +80,26 @@ public class MemberService {
     }
 
 
+    // 아이디로 조회
+    public Member findByAccount(String account) {
+        return memberMapper.findOne(account);
+    }
+
+
     // 아이디, 이메일 중복검사
     public boolean checkIdentifier(String type, String keyword) {
         return memberMapper.existsById(type, keyword);
     }
+
+
+
+    // 회원 전체 조회 하는 중간 처리
+    public List<LoginUserInfoDto> findAll(String account, String nickName) {
+        List<Member> members = memberMapper.findAll(account, nickName);
+        return members.stream()
+                .map(LoginUserInfoDto::new)
+                .collect(Collectors.toList());
+    }
+
 
 }

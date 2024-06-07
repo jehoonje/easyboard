@@ -52,8 +52,8 @@ public class BoardListResponseDto {
     }
 
     private String makeShortTitle(String title) {
-        return (title.length() > 5)
-                ? title.substring(0, 5) + "..."
+        return (title.length() > 20)
+                ? title.substring(0, 20) + "..."
                 : title;
     }
 

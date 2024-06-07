@@ -1,31 +1,34 @@
 .card-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    width: 70%;
+    margin-left: 15%;
 
 }
 
 
 .main-title-wrapper {
     position: relative;
+    
 }
 
 .main-title-wrapper h1 {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 700;
     letter-spacing: 10px;
-    text-align: center;
-    margin-bottom: 70px;
+    color: #FFF;
+    margin-left: 15%;
+    margin-bottom: 20px;
 }
 
 .main-title-wrapper .add-btn {
     width: fit-content;
-    padding: 10px 25px;
-    background: rgb(216, 112, 147);
-    border-radius: 15px;
-    color: #fff;
+    padding: 7px 20px;
+    background: rgb(255, 255, 255);
+    color: #000000;
     font-size: 18px;
     position: absolute;
-    right: 120px;
+    right: 220px;
     top: 0;
     cursor: pointer;
 }
@@ -35,19 +38,16 @@
 
 .card-container .card-wrapper {
     position: relative;
-    width: 30.3%;
-    margin-right: 3%;
-    height: 400px;
-    margin-bottom: 100px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: 0.5s;
 }
 
 .card-container .card {
-    height: 370px;
-    border-radius: 20px;
+    height: 50px;
     box-shadow: 0 15px 0 #999;
     overflow: hidden;
+    flex-direction: column;
     transition: 0.5s;
     border: 2px solid transparent;
 }
@@ -57,19 +57,20 @@
 }
 
 .card-container .card .card-title-wrapper {
+    flex-direction: row;
     color: #333;
 }
 
 .card-container .card-wrapper:nth-child(3n) .card-title-wrapper {
-    background: aquamarine;
+    background: rgb(206, 206, 206);
 }
 
 .card-container .card-wrapper:nth-child(3n - 1) .card-title-wrapper {
-    background: violet;
+    background: rgb(206, 206, 206);
 }
 
 .card-container .card-wrapper:nth-child(3n - 2) .card-title-wrapper {
-    background: dodgerblue;
+    background: rgb(206, 206, 206);
 }
 
 .card-container .card-wrapper .card-title-wrapper .card-title {
@@ -87,10 +88,10 @@
 }
 
 .card-container .card .card-title-wrapper .time-view-wrapper {
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px;
+    padding: 5px 10px; */
 }
 
 .card-container .card .card-title-wrapper .time-view-wrapper>div {
@@ -123,24 +124,6 @@
     box-shadow: none;
 }
 
-.card-container .card-hover.card {
-    border: 2px solid;
-}
-
-.card-container .card-wrapper:nth-child(3n) .card-hover.card {
-    border-color: aquamarine;
-    box-shadow: 0 15px 0 aquamarine;
-}
-
-.card-container .card-wrapper:nth-child(3n - 1) .card-hover.card {
-    border-color: violet;
-    box-shadow: 0 15px 0 violet;
-}
-
-.card-container .card-wrapper:nth-child(3n - 2) .card-hover.card {
-    border-color: dodgerblue;
-    box-shadow: 0 15px 0 dodgerblue;
-}
 
 .card-container .card-btn-group {
     display: flex;
@@ -239,29 +222,4 @@
 .pagination-custom li:hover a {
     background: #333 !important;
     color: #fff !important;
-}
-
-
-
-/* 검색창 */
-.top-section {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.top-section .search {
-    flex: 1.5;
-}
-
-.top-section .search form {
-    display: flex;
-}
-.top-section .search form #search-type {
-    flex: 1;
-    width: 80px;
-    margin-right: 10px;
-}
-.top-section .search form input[name=keyword] {
-    flex: 3;
 }

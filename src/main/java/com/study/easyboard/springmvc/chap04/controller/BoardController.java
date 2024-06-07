@@ -5,7 +5,9 @@ import com.study.easyboard.springmvc.chap04.common.Search;
 import com.study.easyboard.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.easyboard.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.easyboard.springmvc.chap04.dto.BoardWriteRequestDto;
+import com.study.easyboard.springmvc.chap05.dto.response.LoginUserInfoDto;
 import com.study.easyboard.springmvc.chap04.service.BoardService;
+import com.study.easyboard.springmvc.chap05.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +26,8 @@ import java.util.List;
 public class BoardController {
 
 //    private final BoardRepository repository;
-    private final BoardService service;
+    private final BoardService bs;
+
 
     // 1. 목록 조회 요청 (/board/list : GET)
     @GetMapping("/list")
@@ -32,9 +35,9 @@ public class BoardController {
         System.out.println("/board/list GET");
 
         // 서비스에게 조회 요청 위임
-        List<BoardListResponseDto> bList = service.findList(page);
+        List<BoardListResponseDto> bList = bs.findList(page);
         // 페이지 정보를 생성하여 JSP에게 전송
-        PageMaker maker = new PageMaker(page, service.getCount(page));
+        PageMaker maker = new PageMaker(page, bs.getCount(page));
 
         // 3. JSP파일에 해당 목록데이터를 보냄
         model.addAttribute("bList", bList);
@@ -43,6 +46,7 @@ public class BoardController {
 
         return "board/list";
     }
+
 
     // 2. 게시글 쓰기 양식 화면 열기 요청 (/board/write : GET)
     @GetMapping("/write")
@@ -60,7 +64,7 @@ public class BoardController {
         // 1. 브라우저가 전달한 게시글 내용 읽기
         System.out.println("dto = " + dto);
 
-        service.insert(dto, session);
+        bs.insert(dto, session);
 
         return "redirect:/board/list";
     }
@@ -71,7 +75,7 @@ public class BoardController {
     public String delete(int bno) {
         System.out.println("/board/delete GET");
 
-        service.remove(bno);
+        bs.remove(bno);
 
         return "redirect:/board/list";
     }
@@ -87,7 +91,7 @@ public class BoardController {
         System.out.println("bno = " + bno);
 
         // 2. 데이터베이스로부터 해당 글번호 데이터 조회하기
-        BoardDetailResponseDto dto = service.detail(bno);
+        BoardDetailResponseDto dto = bs.detail(bno);
 
         // 3. JSP파일에 조회한 데이터 보내기
         model.addAttribute("bbb", dto);
@@ -98,6 +102,7 @@ public class BoardController {
 
         return "board/detail";
     }
+
 
 
 }

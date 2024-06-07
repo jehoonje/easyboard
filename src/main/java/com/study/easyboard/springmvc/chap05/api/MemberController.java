@@ -1,19 +1,26 @@
 package com.study.easyboard.springmvc.chap05.api;
 
+import com.study.easyboard.springmvc.chap04.common.Search;
+import com.study.easyboard.springmvc.chap04.entity.Board;
+import com.study.easyboard.springmvc.chap04.service.BoardService;
 import com.study.easyboard.springmvc.chap05.dto.request.LoginDto;
 import com.study.easyboard.springmvc.chap05.dto.request.SignUpDto;
+import com.study.easyboard.springmvc.chap05.dto.response.LoginUserInfoDto;
+import com.study.easyboard.springmvc.chap05.entity.Member;
 import com.study.easyboard.springmvc.chap05.service.LoginResult;
 import com.study.easyboard.springmvc.chap05.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/members")
@@ -22,6 +29,8 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
 
     private final MemberService memberService;
+    private final BoardService boardService;
+
 
     // 회원가입 양식 열기
     @GetMapping("/sign-up")
@@ -124,5 +133,29 @@ public class MemberController {
         // 홈으로 보내기
         return "redirect:/";
     }
+
+    @GetMapping("/discover")
+    public String discover(Model model, String account, String nickName) {
+        List<LoginUserInfoDto> uList = memberService.findAll(account, nickName);
+        model.addAttribute("users", uList);
+        return "members/discover";
+    }
+
+    @GetMapping("/{account}")
+    public String memberPage(@PathVariable String account, Model model) {
+        // 회원 정보 조회
+        Member member = memberService.findByAccount(account);
+        if (member == null) {
+            return "redirect:/members/sign-up"; // 회원이 존재하지 않을 경우 회원 가입 페이지로 리다이렉트
+        }
+
+        // 회원의 보드 목록 조회
+        List<Board> boards = boardService.findByWriter(account);
+
+        model.addAttribute("member", member);
+        model.addAttribute("boards", boards);
+        return "member/index";
+    }
+
 
 }

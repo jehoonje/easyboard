@@ -65,4 +65,8 @@ public class BoardService {
     public int getCount(Search search) {
         return boardMapper.count(search);
     }
+
+    public List<Board> findByWriter(String writer) {
+        return boardMapper.findByWriter(writer);
+    }
 }

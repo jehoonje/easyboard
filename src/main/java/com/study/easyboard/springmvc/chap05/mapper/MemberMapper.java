@@ -4,6 +4,8 @@ import com.study.easyboard.springmvc.chap05.entity.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface MemberMapper {
 
@@ -24,4 +26,7 @@ public interface MemberMapper {
             @Param("type") String type,
             @Param("keyword") String keyword
     );
+
+    List<Member> findAll(@Param("account")String account,
+                         @Param("nickName") String nickName);
 }

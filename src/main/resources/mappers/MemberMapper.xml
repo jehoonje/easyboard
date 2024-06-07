@@ -24,6 +24,17 @@
         WHERE account = #{account}
     </select>
 
+    <select id="findAll" resultType="member">
+        SELECT
+        account
+        , password
+        , name
+        , email
+        , auth
+        , reg_date
+        FROM tbl_member
+    </select>
+
     <select id="existsById" resultType="boolean">
         SELECT COUNT(*)
         FROM tbl_member

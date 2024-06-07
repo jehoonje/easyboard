@@ -4,6 +4,8 @@ import com.study.easyboard.springmvc.chap04.common.Search;
 import com.study.easyboard.springmvc.chap04.dto.BoardFindAllDto;
 import com.study.easyboard.springmvc.chap04.entity.Board;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -28,4 +30,7 @@ public interface BoardMapper {
 
     // 총 게시물 수 조회
     int count(Search search);
+
+    @Select("SELECT * FROM tbl_board WHERE writer = #{writer}")
+    List<Board> findByWriter(@Param("writer") String writer);
 }

@@ -1,4 +1,4 @@
-package com.study.easyboard.springmvc.chap05.dto.response;
+    package com.study.easyboard.springmvc.chap05.dto.response;
 
 import com.study.easyboard.springmvc.chap05.entity.Member;
 import lombok.*;
