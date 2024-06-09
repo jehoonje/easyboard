@@ -27,7 +27,7 @@
         <li><a href="/board/list">Board</a></li>
       </c:if>
 
-      <li><a href="#">Discover</a></li>
+      <li><a href="/members/discover">Discover</a></li>
       
     </ul>
   </nav>

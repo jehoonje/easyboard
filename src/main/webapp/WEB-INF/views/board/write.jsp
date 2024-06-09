@@ -5,6 +5,7 @@
 <html lang="ko">
 <head>
     <%@ include file="../include/static-head.jsp" %>
+    <link rel="stylesheet" href="/assets/css/write.css">
 </head>
 <body>
     <%@ include file="../include/header.jsp" %>
@@ -18,7 +19,7 @@
         <label for="content">CONTENT</label>
         <textarea id="content" name="content" maxlength="200" required></textarea>
         <div class="buttons">
-            <button class="list-btn" type="button" onclick="window.location.href='/board/list'">목록</button>
+            <button class="list-btn" type="button" onclick="window.location.href='/board/list'">Back</button>
             <button type="submit">WRITE</button>
         </div>
     </form>

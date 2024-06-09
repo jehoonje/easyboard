@@ -6,33 +6,7 @@
     <meta charset="UTF-8" />
     <title>Insert title here</title>
     <%@ include file="../include/static-head.jsp" %>
-  <style>
-      /* header styles */
-      body {margin: 0;background: #000;font-family: Arial, sans-serif; width: 100%;}
-      header {background-color: #000000;padding: 10px 0;text-align: center; }
-      h1.logo a {text-decoration: none;}
-      nav ul {list-style: none;padding: 0;margin: 0;display: flex;justify-content: center;}
-      nav ul li {margin: 0 15px;}
-      nav ul li a {text-decoration: none;color: #30dd00;font-weight: bold;}      
-      .container.wrap {margin-bottom: 200px;margin-top: 50px;}
-      .card {background: #000;width: 200%;}
-      .card-header {background: #000000;}
-      .card-body input {height: 40px;border: 1px solid #000000;}
-      #signup-btn, #signIn-btn {background: gray;margin-top: 0;height: 40px;color: white;border: 0px solid #388e3c;opacity: 0.8;}
-      #signIn-btn {background-color: #343A40;}
-      #sign-up-btn {background-color: orangered;color: #fff;}
-      .auto-label {display: flex;align-items: center;}
-      .auto-label span {margin-right: 10px;}
-      .text-left {text-align: left;}
-      .text-center {text-align: center;}
-      .text-gray {color: rgb(255, 255, 255);}
-      .table {margin: 0 auto;width: 100%;}
-      .table * {border: none;margin-bottom: 0;}
-      .table td {padding-top: 5px;}
-      .table td.colspan-2 {width: 100%;text-align: center;color: white;border-top: 1px solid #000000;}
-      #custom-login-btn img {width: 300px;}
-      tr p {color: #fff;}
-  </style>
+    <link rel="stylesheet" href="/assets/css/sign-up.css">
   </head>
 
   <body>
@@ -43,7 +17,7 @@
         <div class="offset-md-2 col-md-4">
           <div class="card">
             <div class="card-header text-white">
-              <h2><span class="text-gray">Make your simple world!</h2>
+              <h2><span class="text-gray">Join the Blog Wave!</h2>
             </div>
             <div class="card-body">
               <form

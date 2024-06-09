@@ -12,16 +12,16 @@
 
                 <h1>${bbb.boardNo}번 게시물 내용~ </h1>
                 <h2># 작성일자: ${bbb.regDateTime}</h2>
-                <label for="writer">작성자</label>
+                <label for="writer">Writer</label>
                 <input type="text" id="writer" name="writer" value="${bbb.writer}" readonly>
-                <label for="title">제목</label>
+                <label for="title">Title</label>
                 <input type="text" id="title" name="title" value="${bbb.title}" readonly>
-                <label for="content">내용</label>
+                <label for="content">content</label>
                 <div id="content">
                     ${bbb.content}
                 </div>
                 <div class="buttons">
-                    <button class="list-btn" type="button" onclick="window.location.href='${ref}'">목록</button>
+                    <button class="list-btn" type="button" onclick="window.location.href='${ref}'">Back</button>
                 </div>
 
 
@@ -34,17 +34,17 @@
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="form-group">
-                                            <label for="newReplyText" hidden>댓글 내용</label>
+                                            <label for="newReplyText" hidden>Content</label>
                                             <textarea rows="3" id="newReplyText" name="replyText" class="form-control"
                                                 placeholder="댓글을 입력해주세요."></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="newReplyWriter" hidden>댓글 작성자</label>
+                                            <label for="newReplyWriter" hidden>Writer</label>
                                             <input id="newReplyWriter" name="replyWriter" type="text"
                                                 class="form-control" placeholder="작성자 이름" style="margin-bottom: 6px;">
-                                            <button id="replyAddBtn" type="button" class="btn btn-dark form-control">등록</button>
+                                            <button id="replyAddBtn" type="button" class="btn btn-dark form-control">Post</button>
                                         </div>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                         <div class="card">
                             <!-- 댓글 내용 헤더 -->
                             <div class="card-header text-white m-0" style="background: #343A40;">
-                                <div class="float-left">댓글 (<span id="replyCnt">0</span>)</div>
+                                <div class="float-left">- (<span id="replyCnt">0</span>)</div>
                             </div>
 
                             <!-- 댓글 내용 바디 -->

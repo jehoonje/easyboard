@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.study.tomCatPractice.springmvc.chap05.mapper.MemberMapper">
+<mapper namespace="com.study.easyboard.springmvc.chap05.mapper.MemberMapper">
 
     <insert id="save">
         INSERT INTO tbl_member
@@ -22,6 +22,17 @@
             , reg_date
         FROM tbl_member
         WHERE account = #{account}
+    </select>
+
+    <select id="findAll" resultType="member">
+        SELECT
+        account
+        , password
+        , name
+        , email
+        , auth
+        , reg_date
+        FROM tbl_member
     </select>
 
     <select id="existsById" resultType="boolean">
