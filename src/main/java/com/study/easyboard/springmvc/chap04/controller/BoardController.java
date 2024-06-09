@@ -5,47 +5,78 @@ import com.study.easyboard.springmvc.chap04.common.Search;
 import com.study.easyboard.springmvc.chap04.dto.BoardDetailResponseDto;
 import com.study.easyboard.springmvc.chap04.dto.BoardListResponseDto;
 import com.study.easyboard.springmvc.chap04.dto.BoardWriteRequestDto;
+import com.study.easyboard.springmvc.chap04.entity.Board;
 import com.study.easyboard.springmvc.chap05.dto.response.LoginUserInfoDto;
 import com.study.easyboard.springmvc.chap04.service.BoardService;
 import com.study.easyboard.springmvc.chap05.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
+
+
 
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
 
 //    private final BoardRepository repository;
     private final BoardService bs;
 
 
-    // 1. 목록 조회 요청 (/board/list : GET)
     @GetMapping("/list")
-    public String list(@ModelAttribute("s") Search page, Model model) {
-        System.out.println("/board/list GET");
+    public String list(Principal principal, Model model) {
+        if (principal == null) {
+            return "redirect:/members/sign-in";
+        }
 
-        // 서비스에게 조회 요청 위임
-        List<BoardListResponseDto> bList = bs.findList(page);
-        // 페이지 정보를 생성하여 JSP에게 전송
-        PageMaker maker = new PageMaker(page, bs.getCount(page));
+        String account = principal.getName();
+        return "redirect:/board/" + account;
+    }
 
-        // 3. JSP파일에 해당 목록데이터를 보냄
+    @GetMapping("/{account}")
+    public String viewUserBoard(@PathVariable String account, @ModelAttribute("s") Search page, Model model) {
+        Board board = bs.findBoardByAccount(account);
+        if (board == null) {
+            // 보드가 없으면 에러 페이지로 리디렉트
+            throw new ResourceNotFoundException("Board not found for account: " + account);
+        }
+
+        List<BoardListResponseDto> bList = bs.findList(page, account);
+        PageMaker maker = new PageMaker(page, bs.getCount(page, account));
+
         model.addAttribute("bList", bList);
         model.addAttribute("maker", maker);
-//        model.addAttribute("s", page);
+        model.addAttribute("board", board);
 
         return "board/list";
     }
+//
+//    // 1. 목록 조회 요청 (/board/list : GET)
+//    @GetMapping("/list")
+//    public String list(@ModelAttribute("s") Search page, Model model) {
+//        System.out.println("/board/list GET");
+//
+//        // 서비스에게 조회 요청 위임
+//        List<BoardListResponseDto> bList = bs.findList(page);
+//        // 페이지 정보를 생성하여 JSP에게 전송
+//        PageMaker maker = new PageMaker(page, bs.getCount(page));
+//
+//        // 3. JSP파일에 해당 목록데이터를 보냄
+//        model.addAttribute("bList", bList);
+//        model.addAttribute("maker", maker);
+////        model.addAttribute("s", page);
+//
+//        return "board/list";
+//    }
 
 
     // 2. 게시글 쓰기 양식 화면 열기 요청 (/board/write : GET)

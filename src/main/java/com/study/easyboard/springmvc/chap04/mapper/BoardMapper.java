@@ -27,10 +27,15 @@ public interface BoardMapper {
     // 조회수 상승
     void upViewCount(int boardNo);
 
+    void createBoardForUser(@Param("account") String account);
+    Board findBoardByAccount(@Param("account") String account);
 
     // 총 게시물 수 조회
-    int count(Search search);
+    int count(Search search, String account);
 
     @Select("SELECT * FROM tbl_board WHERE writer = #{writer}")
     List<Board> findByWriter(@Param("writer") String writer);
+
+    List<BoardFindAllDto> findAllByAccount(@Param("page") Search page, @Param("account") String account);
+
 }

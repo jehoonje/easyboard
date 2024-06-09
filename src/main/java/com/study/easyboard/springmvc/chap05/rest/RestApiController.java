@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,18 +51,31 @@ public class RestApiController {
     }
 
     @GetMapping("/board")
-    public Map<String, Object> board() {
+    public Map<String, Object> board(Principal principal) {
+        // 현재 로그인한 사용자의 계정을 가져옴
+        String account = principal.getName();
 
-        List<BoardListResponseDto> list = boardService.findList(new Search());
+        List<BoardListResponseDto> list = boardService.findList(new Search(), account);
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("page", new PageMaker(new Page(),
-                boardService.getCount(new Search())));
-
+        map.put("page", new PageMaker(new Page(), boardService.getCount(new Search(), account)));
         map.put("articles", list);
 
         return map;
     }
+//    @GetMapping("/board")
+//    public Map<String, Object> board() {
+//
+//        List<BoardListResponseDto> list = boardService.findList(new Search());
+//
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("page", new PageMaker(new Page(),
+//                boardService.getCount(new Search())));
+//
+//        map.put("articles", list);
+//
+//        return map;
+//    }
 
     /*
          RestController에서 리턴타입을 ResponseEntity를 쓰는 이유

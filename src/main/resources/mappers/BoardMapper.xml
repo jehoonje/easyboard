@@ -78,4 +78,19 @@
         <include refid="search" />
     </select>
 
+    <insert id="createBoardForUser">
+        INSERT INTO tbl_board (account, title, content, writer, view_count, reg_date_time)
+        VALUES (#{account}, '', '', '', 0, NOW())
+    </insert>
+
+    <select id="findBoardByAccount" resultType="com.study.easyboard.springmvc.chap04.entity.Board">
+        SELECT * FROM tbl_board WHERE account = #{account}
+    </select>
+
+    <select id="findAllByAccount" resultType="com.study.easyboard.springmvc.chap04.dto.BoardFindAllDto">
+        SELECT * FROM tbl_board WHERE account = #{account} LIMIT #{page.pageStart}, #{page.perPageNum}
+    </select>
+
+
+
 </mapper>

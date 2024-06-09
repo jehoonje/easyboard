@@ -1,130 +1,110 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <!DOCTYPE html>
-    <html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
 
-  <head>
-    <%@ include file="../include/static-head.jsp" %>   
-    <link rel="stylesheet" href="/assets/css/list.css">
-  </head>
+<head>
+    <%@ include file="../include/static-head.jsp" %>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/list.css">
+</head>
 
-    <body>
-      <%@ include file="../include/header.jsp" %>
+<body>
+    <%@ include file="../include/header.jsp" %>
 
-      
-      <div id="wrap">
-
+    <div id="wrap">
         <div class="main-title-wrapper">
-          <h1 class="main-title">Posts</h1>
-          <button class="add-btn">new post</button>
+            <h1 class="main-title">Posts</h1>
+            <button class="add-btn">new post</button>
         </div>
 
         <div class="card-container">
-          <c:if test="${bList.size() > 0}">
-            <c:forEach var="b" items="${bList}">
-              <div class="card-wrapper">
-                <section class="card" data-bno="${b.bno}">
-                  <div class="card-title-wrapper">
-                    <div class="time-view-wrapper">
-                      <div class="time">
-                        <i class="far fa-clock"></i>
-                        ${b.date}
-                      </div>
+            <c:if test="${bList.size() > 0}">
+                <c:forEach var="b" items="${bList}">
+                    <div class="card-wrapper">
+                        <section class="card" data-bno="${b.bno}">
+                            <div class="card-title-wrapper">
+                                <div class="time-view-wrapper">
+                                    <div class="time">
+                                        <i class="far fa-clock"></i>
+                                        ${b.date}
+                                    </div>
+                                    <div class="view">
+                                        <i class="fas fa-eye"></i>
+                                        <span class="view-count">${b.view}</span>
+                                    </div>
+                                </div>
+                                <div class="card-title">${b.shortTitle} [${b.replyCount}]</div>
+                            </div>
+                        </section>
 
-                      <div class="view">
-                        <i class="fas fa-eye"></i>
-                        <span class="view-count">${b.view}</span>
-                      </div>
+                        <!-- 관리자이거나 본인이 쓴 글에만 렌더링되도록 -->
+                        <c:if test="${login.auth == 'ADMIN' || login.account == b.account}">
+                            <div class="card-btn-group">
+                                <button class="del-btn" data-href="${pageContext.request.contextPath}/board/delete?bno=${b.bno}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </c:if>
                     </div>
-                    <div class="card-title">${b.shortTitle} [${b.replyCount}] </ㅇ>
-                  </div>
-                </section>
-
-                <!-- 관리자이거나 본인이 쓴글에만 렌더링되도록 -->
-                <c:if test="${login.auth == 'ADMIN' || login.account == b.account}">
-                  <div class="card-btn-group">
-                    <button class="del-btn" data-href="/board/delete?bno=${b.bno}">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </c:if>
-
-              </div>
-              <!-- end div.card-wrapper -->
-            </c:forEach>
-          </c:if>
-
-
+                    <!-- end div.card-wrapper -->
+                </c:forEach>
+            </c:if>
         </div>
-  
         <!-- end div.card-container -->
 
         <!-- 게시글 목록 하단 영역 -->
         <div class="bottom-section">
+            <!-- 페이지 버튼 영역 -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-lg pagination-custom">
+                    <c:if test="${maker.pageInfo.pageNo != 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="${pageContext.request.contextPath}/board/${board.account}?pageNo=1&type=${s.type}&keyword=${s.keyword}">&lt;&lt;</a>
+                        </li>
+                    </c:if>
 
-          <!-- 페이지 버튼 영역 -->
-          <nav aria-label="Page navigation example">
-            <ul class="pagination pagination-lg pagination-custom">
+                    <c:if test="${maker.prev}">
+                        <li class="page-item">
+                            <a class="page-link" href="${pageContext.request.contextPath}/board/${board.account}?pageNo=${maker.begin - 1}&type=${s.type}&keyword=${s.keyword}">prev</a>
+                        </li>
+                    </c:if>
 
-              <c:if test="${maker.pageInfo.pageNo != 1}">
-                <li class="page-item">
-                  <a class="page-link" href="/board/list?pageNo=1&type=${s.type}&keyword=${s.keyword}">&lt;&lt;</a>
-                </li>
-              </c:if>
+                    <c:forEach var="i" begin="${maker.begin}" end="${maker.end}">
+                        <li data-page-num="${i}" class="page-item">
+                            <a class="page-link" href="${pageContext.request.contextPath}/board/${board.account}?pageNo=${i}&type=${s.type}&keyword=${s.keyword}">${i}</a>
+                        </li>
+                    </c:forEach>
 
-              <c:if test="${maker.prev}">
-                <li class="page-item">
-                  <a class="page-link"
-                    href="/board/list?pageNo=${maker.begin - 1}&type=${s.type}&keyword=${s.keyword}">prev</a>
-                </li>
-              </c:if>
+                    <c:if test="${maker.next}">
+                        <li class="page-item">
+                            <a class="page-link" href="${pageContext.request.contextPath}/board/${board.account}?pageNo=${maker.end + 1}&type=${s.type}&keyword=${s.keyword}">next</a>
+                        </li>
+                    </c:if>
 
-              <c:forEach var="i" begin="${maker.begin}" end="${maker.end}">
-                <li data-page-num="${i}" class="page-item">
-                  <a class="page-link" href="/board/list?pageNo=${i}&type=${s.type}&keyword=${s.keyword}">${i}</a>
-                </li>
-              </c:forEach>
-
-              <c:if test="${maker.next}">
-                <li class="page-item">
-                  <a class="page-link"
-                    href="/board/list?pageNo=${maker.end + 1}&type=${s.type}&keyword=${s.keyword}">next</a>
-                </li>
-              </c:if>
-
-              <c:if test="${maker.pageInfo.pageNo != maker.finalPage}">
-                <li class="page-item">
-                  <a class="page-link"
-                    href="/board/list?pageNo=${maker.finalPage}&type=${s.type}&keyword=${s.keyword}">&gt;&gt;</a>
-                </li>
-              </c:if>
-
-            </ul>
-          </nav>
-
+                    <c:if test="${maker.pageInfo.pageNo != maker.finalPage}">
+                        <li class="page-item">
+                            <a class="page-link" href="${pageContext.request.contextPath}/board/${board.account}?pageNo=${maker.finalPage}&type=${s.type}&keyword=${s.keyword}">&gt;&gt;</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
         </div>
         <!-- end div.bottom-section -->
-
-      </div>
-      <!-- end div.wrap -->
-
-
-      <!-- 모달 창 -->
-      <div class="modal" id="modal">
-        <div class="modal-content">
-          <p>정말로 삭제할까요?</p>
-          <div class="modal-buttons">
-            <button class="confirm" id="confirmDelete"><i class="fas fa-check"></i> 예</button>
-            <button class="cancel" id="cancelDelete"><i class="fas fa-times"></i> 아니오</button>
-          </div>
-        </div>
-      </div>
     </div>
-      </body>
+    <!-- end div.wrap -->
 
+    <!-- 모달 창 -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <p>정말로 삭제할까요?</p>
+            <div class="modal-buttons">
+                <button class="confirm" id="confirmDelete"><i class="fas fa-check"></i> 예</button>
+                <button class="cancel" id="cancelDelete"><i class="fas fa-times"></i> 아니오</button>
+            </div>
+        </div>
+    </div>
 
-      <script>
-
+    <script>
         const $cardContainer = document.querySelector('.card-container');
 
         //================= 삭제버튼 스크립트 =================//
@@ -133,29 +113,28 @@
         const cancelDelete = document.getElementById('cancelDelete'); // 모달 삭제 취소 버튼
 
         $cardContainer.addEventListener('click', e => {
-          // 삭제 버튼을 눌렀다면~
-          if (e.target.matches('.card-btn-group *')) {
-            console.log('삭제버튼 클릭');
-            modal.style.display = 'flex'; // 모달 창 띄움
+            // 삭제 버튼을 눌렀다면~
+            if (e.target.matches('.card-btn-group *')) {
+                console.log('삭제버튼 클릭');
+                modal.style.display = 'flex'; // 모달 창 띄움
 
-            const $delBtn = e.target.closest('.del-btn');
-            // 삭제 링크주소 얻기
-            const deleteLocation = $delBtn.dataset.href;
-            console.log(deleteLocation);
+                const $delBtn = e.target.closest('.del-btn');
+                // 삭제 링크주소 얻기
+                const deleteLocation = $delBtn.dataset.href;
+                console.log(deleteLocation);
 
-            // 확인 버튼 이벤트
-            confirmDelete.onclick = e => {
-              // 삭제 처리 로직
-              window.location.href = deleteLocation;
+                // 확인 버튼 이벤트
+                confirmDelete.onclick = e => {
+                    // 삭제 처리 로직
+                    window.location.href = deleteLocation;
 
-              modal.style.display = 'none'; // 모달 창 닫기
-            };
+                    modal.style.display = 'none'; // 모달 창 닫기
+                };
 
-
-            // 취소 버튼 이벤트
-            cancelDelete.onclick = e => {
-              modal.style.display = 'none'; // 모달 창 닫기
-            };
+                // 취소 버튼 이벤트
+                cancelDelete.onclick = e => {
+                    modal.style.display = 'none'; // 모달 창 닫기
+                };
           } else { // 삭제 버튼 제외한 부분은 글 상세조회 요청
 
             // section태그에 붙은 글번호 읽기

@@ -29,4 +29,6 @@ public interface MemberMapper {
 
     List<Member> findAll(@Param("account")String account,
                          @Param("nickName") String nickName);
+
+
 }

@@ -23,10 +23,19 @@ public class BoardService {
     private final BoardMapper boardMapper;
     private final ReplyMapper replyMapper;
 
-    // 목록 조회 요청 중간처리
-    public List<BoardListResponseDto> findList(Search page) {
+    public void createBoardForUser(String account) {
+        boardMapper.createBoardForUser(account);
+    }
 
-        List<BoardFindAllDto> boardList = boardMapper.findAll(page);
+    public Board findBoardByAccount(String account) {
+        return boardMapper.findBoardByAccount(account);
+    }
+
+
+    // 목록 조회 요청 중간처리
+    public List<BoardListResponseDto> findList(Search page, String account) {
+
+        List<BoardFindAllDto> boardList = boardMapper.findAllByAccount(page, account);
 
         // 조회해온 게시물 리스트에서 각 게시물들의 조회수를 확인하여
         // 조회수가 5이상인 게시물에 특정 마킹
@@ -36,6 +45,20 @@ public class BoardService {
 
         return dtoList;
     }
+
+//    // 목록 조회 요청 중간처리
+//    public List<BoardListResponseDto> findList(Search page) {
+//
+//        List<BoardFindAllDto> boardList = boardMapper.findAll(page);
+//
+//        // 조회해온 게시물 리스트에서 각 게시물들의 조회수를 확인하여
+//        // 조회수가 5이상인 게시물에 특정 마킹
+//        List<BoardListResponseDto> dtoList = boardList.stream()
+//                .map(b -> new BoardListResponseDto(b))
+//                .collect(Collectors.toList());
+//
+//        return dtoList;
+//    }
 
     // 등록 요청 중간처리
     public boolean insert(BoardWriteRequestDto dto, HttpSession session) {
@@ -62,8 +85,9 @@ public class BoardService {
         return responseDto;
     }
 
-    public int getCount(Search search) {
-        return boardMapper.count(search);
+    // 특정 계정의 총 게시물 수 조회
+    public int getCount(Search search, String account) {
+        return boardMapper.count(search, account);
     }
 
     public List<Board> findByWriter(String writer) {
