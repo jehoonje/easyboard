@@ -17,7 +17,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(afterLoginInterceptor)
-                .addPathPatterns("/members/sign-up", "/members/sign-in");
+                .addPathPatterns("/members/sign-up", "/members/sign-in")
+                .excludePathPatterns("/board/**"); // board 관련 경로 제외
 
         registry.addInterceptor(boardInterceptor)
                 .addPathPatterns("/board/*")

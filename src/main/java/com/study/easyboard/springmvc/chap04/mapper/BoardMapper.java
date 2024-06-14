@@ -3,6 +3,7 @@ package com.study.easyboard.springmvc.chap04.mapper;
 import com.study.easyboard.springmvc.chap04.common.Search;
 import com.study.easyboard.springmvc.chap04.dto.BoardFindAllDto;
 import com.study.easyboard.springmvc.chap04.entity.Board;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -18,8 +19,8 @@ public interface BoardMapper {
     // 게시물 상세 조회
     Board findOne(int boardNo);
 
-    // 게시물 등록
-    boolean save(Board board);
+//    // 게시물 등록
+//    boolean save(Board board);
 
     // 게시물 삭제
     boolean delete(int boardNo);
@@ -36,6 +37,11 @@ public interface BoardMapper {
     @Select("SELECT * FROM tbl_board WHERE writer = #{writer}")
     List<Board> findByWriter(@Param("writer") String writer);
 
-    List<BoardFindAllDto> findAllByAccount(@Param("page") Search page, @Param("account") String account);
+    @Insert("INSERT INTO tbl_board (account, title, reg_date_time) VALUES (#{account}, #{title}, NOW())")
+    int save(Board board);
 
+    @Select("SELECT * FROM tbl_board WHERE account = #{account}")
+    Board findByAccount(@Param("account") String account);
+
+    List<BoardFindAllDto> findAllByAccount(Search page, String account);
 }

@@ -9,7 +9,6 @@
   <%@ include file="./include/header.jsp" %>
   <div class="container">
     <div class="main-container">
-
     </div>
     <div class="sub-container">
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.easyboard.springmvc.chap04.mapper.PostMapper">
+    <insert id="save" parameterType="com.study.easyboard.springmvc.chap05.domain.Post">
+        INSERT INTO tbl_post (board_no, title, content, writer, view_count, reg_date_time)
+        VALUES (#{boardNo}, #{title}, #{content}, #{writer}, #{viewCount}, NOW())
+    </insert>
+</mapper>

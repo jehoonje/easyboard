@@ -3,6 +3,8 @@ package com.study.easyboard.springmvc.chap05.service;
 import com.study.easyboard.springmvc.chap04.common.Page;
 import com.study.easyboard.springmvc.chap04.common.PageMaker;
 import com.study.easyboard.springmvc.chap04.common.Search;
+import com.study.easyboard.springmvc.chap04.mapper.BoardMapper;
+import com.study.easyboard.springmvc.chap04.service.BoardService;
 import com.study.easyboard.springmvc.chap05.dto.request.LoginDto;
 import com.study.easyboard.springmvc.chap05.dto.request.SignUpDto;
 import com.study.easyboard.springmvc.chap05.dto.response.LoginUserInfoDto;
@@ -31,6 +33,7 @@ public class MemberService {
 
     private final MemberMapper memberMapper;
     private final PasswordEncoder encoder;
+    private final BoardService boardService;
 
     // 회원 가입 중간 처리
     public boolean join(SignUpDto dto) {
@@ -41,7 +44,15 @@ public class MemberService {
         String encodedPassword = encoder.encode(dto.getPassword());
         member.setPassword(encodedPassword);
 
-        return memberMapper.save(member);
+        boolean isSaved = memberMapper.save(member);
+
+        if (isSaved) {
+            // 계정에 대한 Board 페이지 생성
+
+            boardService.createBoardForUser(dto.getAccount());
+        }
+
+        return isSaved;
     }
 
 
